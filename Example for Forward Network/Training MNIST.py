@@ -38,4 +38,16 @@ def inference(input_tensor, avg_class, weights1, biases1, weights2, biases2):
 
 # 模型训练的过程
 def train(mnist):
-    x = tf.placeholder(tf.float32, [None, INPUT_NODE])
+    x = tf.placeholder(tf.float32, [None, INPUT_NODE], name='input')
+    y_ = tf.placeholder(tf.float32, [None, OUTPUT_NODE], name='output')
+
+    # 生成隐含层参数
+    weights1 = tf.Variable(tf.truncated_normal([INPUT_NODE, LAYER1_NODE], stddev=0.1))
+    biases1 = tf.Variable(tf.constant(0.1, shape=[LAYER1_NODE])) 
+    # 生成输出层参数
+    weights2 = tf.Variable(tf.truncated_normal([LAYER1_NODE, OUTPUT_NODE], stddev=0.1))
+    biases2 = tf.Variable(tf.constant(0.1, shape=[OUTPUT_NODE]))
+
+    # 计算在当前参数下神经网络前向传播的结果。这里给出的用于计算滑动平均的类为None，
+    # 所以函数不会使用参数的滑动平均值。
+    y = inference()
