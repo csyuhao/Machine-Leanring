@@ -34,4 +34,8 @@ def inference(input_tensor, avg_class, weights1, biases1, weights2, biases2):
         # 首先使用avg_class.average函数来计算得出变量的滑动平均值，
         # 然后再计算相应的神经网络前向传播结果。
         layer1 = tf.nn.relu(tf.matmul(input_tensor, avg_class.average(weights1)) + avg_class.average(biases1))
-        return tf.matful
+        return tf.matmul(layer1, avg_class.average(weights2) + avg_class.average(biases2))
+
+# 模型训练的过程
+def train(mnist):
+    x = tf.placeholder(tf.float32, [None, INPUT_NODE])
