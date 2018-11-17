@@ -131,7 +131,8 @@ def train(mnist):
                 # 小的batch。当神经网络模型比较复杂或者验证数据比较大时，太大的batch
                 # 会导致计算时间过长甚至发生内存溢出的错误。
                 validate_acc = sess.run(accuracy, feed_dict=validate_feed)
-                print("After %d training step(s), validation accuracy using average model is %g " % (i, validate_acc))
+                test_acc = sess.run(accuracy, feed_dict=test_feed)
+                print("After %d training step(s), validation accuracy using average model is %g , test accuracy using average model is %g" % (i, validate_acc, test_acc))
             # 产生这一轮使用的一个batch的训练数据，并运行训练过程
             xs, ys = mnist.train.next_batch(BATCH_SIZE)
             sess.run(train_op, feed_dict={x:xs, y_:ys})
@@ -142,7 +143,7 @@ def train(mnist):
 # 主程序入口.
 def main(argv=None):
     # 声明处理MNIST数据集的类，这个类在初始化时会自动下载数据。
-    mnist = input_data.read_data_sets("D:/MINIST/", one_hot=True)
+    mnist = input_data.read_data_sets("D:/MNIST/", one_hot=True)
     train(mnist)
 
 # TensorFlow提供的一个主程序入口，tf.app.run会调用上面定义的main函数。
