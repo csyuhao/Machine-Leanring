@@ -75,7 +75,7 @@ def train(mnist):
     # 参数是神经网络不包括softmax层的前向传播结果，第二个是训练数据的正确答案。因为
     # 标准答案是一个长度为10的一维数组，而该函数需要提供的是一个正确答案的数字，所以需
     # 要使用tf.argmax函数来得到正确答案对应的类别编号。
-    cross_entropy = tf.nn.sparse_softmax_cross_entroy_with_logits(y, tf.argmax(y_, 1))
+    cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=y, labels=tf.argmax(y_, 1))
     # 计算在当前batch中所有样例的交叉熵平均值。
     cross_entropy_mean = tf.reduce_mean(cross_entropy)
     # 计算L2正则化损失函数。
@@ -131,7 +131,7 @@ def train(mnist):
                 # 小的batch。当神经网络模型比较复杂或者验证数据比较大时，太大的batch
                 # 会导致计算时间过长甚至发生内存溢出的错误。
                 validate_acc = sess.run(accuracy, feed_dict=validate_feed)
-                print("After %d training step(s), validation accuracy using average model is %g " % (i, validate_ac))
+                print("After %d training step(s), validation accuracy using average model is %g " % (i, validate_acc))
             # 产生这一轮使用的一个batch的训练数据，并运行训练过程
             xs, ys = mnist.train.next_batch(BATCH_SIZE)
             sess.run(train_op, feed_dict={x:xs, y_:ys})
